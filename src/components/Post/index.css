@@ -1,0 +1,154 @@
+.post {
+	position: relative;
+	display: grid;
+	justify-items: stretch;
+	align-items: flex-start;
+	padding: 10px;
+	border-radius: 10px;
+}
+/* .post {
+	display: flex;
+	align-items: flex-start;
+	grid-template-columns: repeat(3, 1fr);
+	width: 100%;
+	gap: 1rem;
+	} */
+
+.post:hover {
+	box-shadow: 0 2px 4px rgba(40, 41, 61, 0.04), 0 8px 16px rgba(96, 97, 112, 0.16);
+}
+
+.post:focus-within {
+	box-shadow: 0 0 1px rgba(40, 41, 61, 0.16), 0 0.5px 2px rgba(96, 97, 112, 0.24);
+}
+
+.text__desc {
+	font-size: 16px;
+	padding-top: 14px;
+	font-weight: 600;
+	position: relative;
+}
+
+.post__content {
+    display: flex;
+	align-items: flex-start;
+	width: 100%;
+	gap: 1rem;	
+
+}
+
+.image {
+	vertical-align: middle;
+    border-style: none;
+	margin-bottom: 15px;
+	overflow: hidden;
+    width: 1000px;
+    max-width: 100%;
+}
+
+.postAuthorInfo {
+	font-size: 16px;
+	line-height: 1.25;
+}
+.postAuthorInfo img {
+	font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: 'tnum', "tnum";
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    background: #e1a4a4;
+    width: 52px;
+    height: 52px;
+    line-height: 32px;
+    border-radius: 50%;
+}
+.post__footer {
+	padding: 0px 24px 24px 24px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+	width: 100%;
+    padding-top: 12px;
+    padding-bottom: 20px;
+}
+
+.post__sticky {
+	position: absolute;
+	padding: 10px;
+}
+
+.post__footer_left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.post__footer_right {
+	top: 0;
+	right: 0;
+}
+
+.post__favorite {
+	cursor: pointer;
+	background: none;
+	border: none;
+	padding: 0;
+	display: flex;
+}
+.post__favorite_active {
+	fill: red;
+}
+.post__delete {
+	margin-top: auto;
+}
+
+
+
+.post__link {
+	text-decoration: none;
+	color: currentColor;
+	max-width: 300px;
+}
+
+.btn {
+	padding: 10px 18px;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 20px;
+	border-radius: 55px;
+	text-decoration: none;
+	display: inline-block;
+	transition: background-color .3s;
+	opacity: 0.7;
+}
+
+.btn_type_primary {
+	background-color: #FFE44D;
+}
+.btn_type_primary:hover {
+	background-color: #FFAA0D;
+	color: #F44336;
+}
+
+.tags {
+	padding: 2px 8px;
+	border-radius: 20px;
+	font-weight: 200;
+	font-size: 16px;
+	line-height: 20px;
+	background-color: #36f4b5;
+	display: inline-block;
+}
+
+/* svg {
+    fill: rgb(30, 28, 28);
+} */
+.post__liked > svg {
+  fill: red;
+}
