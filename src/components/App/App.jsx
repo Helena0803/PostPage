@@ -97,6 +97,7 @@ function App() {
             {/* <div className="content__posts">
         </div> */}
             <Routes>
+              <Route path="/" element={<CatalogPage />}></Route>
               <Route path="/catalog" element={<CatalogPage />}></Route>
               <Route path="/post/:postId" element={<PostPage />}></Route>
             </Routes>

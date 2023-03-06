@@ -106,10 +106,9 @@
 }
 .post__delete {
 	margin-top: auto;
+	box-sizing: inherit;
+	
 }
-
-
-
 .post__link {
 	text-decoration: none;
 	color: currentColor;

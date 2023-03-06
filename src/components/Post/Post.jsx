@@ -3,8 +3,10 @@ import { ReactComponent as Cart } from "./cart.svg";
 import "./index.css";
 import cn from "classnames";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../Context/userContext";
+import { api } from "../utils/Api";
+import classNames from "classnames";
 
 export const Post = ({
   // title,
@@ -20,11 +22,24 @@ export const Post = ({
     onPostLike(product);
   };
   const { title, image, tags, text, author } = product;
+  const [posts, setPosts] = useState([]);
+
+  const deleteClickPost = () => {
+    if (alert("Вы уверенны, что хотите удалить данный пост?")) {
+      api.deletePost(product._id).then((newPost) => {
+        const newPosts = posts.map((e) =>
+          e._id === newPost._id ? newPost : e
+        );
+        setPosts([...newPosts]);
+      });
+    }
+  };
+
   return (
     <div className="post">
       <div className="post__header">
         <div className="postAuthorInfo">
-          <img width="10%" src={author.avatar} />
+          <img width="10%" src={author.avatar} alt="Фото" />
           {author.name} {author.about}
         </div>
       </div>
@@ -56,7 +71,7 @@ export const Post = ({
               <Like className="post__liked" />
             </button>
             <div className="deletePostBtn">
-              <button className="post__delete">
+              <button className="post__delete" onClick={deleteClickPost}>
                 <Cart />
               </button>
             </div>

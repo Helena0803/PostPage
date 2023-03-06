@@ -11,8 +11,10 @@ export const PostCard = ({ id, author }) => {
   const [post, setPost] = useState({});
 
   useEffect(() => {
+    if (alert("Подтвердите действие"));
     api.getPostById(id).then((data) => setPost(data));
   }, [id]);
+
   const { currentUser } = useContext(UserContext);
   const isLiked = post?.likes?.some((el) => el === currentUser._id);
   const navigate = useNavigate();
