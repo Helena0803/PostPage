@@ -11,7 +11,7 @@ export const PostCard = ({ id, author }) => {
   const [post, setPost] = useState({});
 
   useEffect(() => {
-    if (alert("Подтвердите действие"));
+    // if (alert("Подтвердите действие"));
     api.getPostById(id).then((data) => setPost(data));
   }, [id]);
 
