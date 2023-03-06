@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../Context/userContext";
 import { api } from "../utils/Api";
-import classNames from "classnames";
+import confirm from "antd/es/modal/confirm";
 
 export const Post = ({
   // title,
@@ -25,7 +25,7 @@ export const Post = ({
   const [posts, setPosts] = useState([]);
 
   const deleteClickPost = () => {
-    if (alert("Вы уверенны, что хотите удалить данный пост?")) {
+    if (confirm("Вы уверенны, что хотите удалить данный пост?")) {
       api.deletePost(product._id).then((newPost) => {
         const newPosts = posts.map((e) =>
           e._id === newPost._id ? newPost : e

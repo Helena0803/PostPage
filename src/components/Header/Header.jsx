@@ -3,10 +3,12 @@ import { Search } from "../Search/Search";
 import "./style.css";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const { currentUser, searchQuery, setSearchQuery, onUpdateUser } =
     useContext(UserContext);
+  const navigate = useNavigate();
   // const [counter, setCounter] = useState(parentCounter);
 
   // useEffect(() => {
@@ -23,8 +25,7 @@ export const Header = () => {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            {" "}
-            Цветочные истории <Logo />
+            Цветочные истории <Logo onClick={() => navigate("/catalog")} />
             <Search
               // count={counter}
               searchQuery={searchQuery}

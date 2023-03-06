@@ -11,6 +11,7 @@ import { CatalogPage } from "../pages/CatalogPage/CatalogPage";
 import { PostPage } from "../pages/PostPage/PostPage";
 import { UserContext } from "../Context/userContext";
 import { PostContext } from "../Context/postContext";
+import { NotFound } from "../pages/NotFound/NotFound";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -77,11 +78,37 @@ function App() {
       setPosts(items_filtred(data, currentUser._id));
     });
   }, [currentUser._id]);
+  const setSortPosts = (sort) => {
+    if (sort === "Самые обсуждаемые") {
+      const newPosts = posts.sort(
+        (a, b) => new Date(a.comments) - new Date(b.comments)
+      );
+      setPosts([...newPosts]);
+    }
+    if (sort === "Старые") {
+      const newPosts = posts.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
+      setPosts([...newPosts]);
+    }
+    if (sort === "Популярные") {
+      const newPosts = posts.sort((a, b) => b.likes.length - a.likes.length);
+      setPosts([...newPosts]);
+    }
+    if (sort === "Новые") {
+      const newPosts = posts.sort(
+        (a, b) => new Date(a.created_at) - new Date(b.created_at)
+      );
+      setPosts([...newPosts]);
+    }
+  };
+
   const contextUserValue = {
     currentUser,
     searchQuery,
     setSearchQuery,
     onUpdateUser: handleUpdateUserInfo,
+    setSort: setSortPosts,
     // setParentCounter,
     // parentCounter,
   };
@@ -100,6 +127,7 @@ function App() {
               <Route path="/" element={<CatalogPage />}></Route>
               <Route path="/catalog" element={<CatalogPage />}></Route>
               <Route path="/post/:postId" element={<PostPage />}></Route>
+              <Route path="*" element={<NotFound />}></Route>
             </Routes>
             <Pagination />
           </main>

@@ -11,7 +11,6 @@ export const PostCard = ({ id, author }) => {
   const [post, setPost] = useState({});
 
   useEffect(() => {
-    // if (alert("Подтвердите действие"));
     api.getPostById(id).then((data) => setPost(data));
   }, [id]);
 
@@ -27,7 +26,7 @@ export const PostCard = ({ id, author }) => {
             {"< "}Назад
           </span>
           <div className={s.image}>
-            <img width="50%" alt="Изображение" src={post.image}></img>
+            <img width="70%" alt="Изображение" src={post.image}></img>
             <div className={s.postAuthorInfo}>
               <span className={s.icon_avatar}>
                 {/* <img src={author.avatar}></img> */}
