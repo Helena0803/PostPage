@@ -104,6 +104,11 @@
 .post__favorite_active {
 	fill: red;
 }
+.post__favorite_not_active {
+	fill: transparent;
+	stroke: black;
+	stroke-width: 0.5px
+  }
 .post__delete {
 	margin-top: auto;
 	box-sizing: inherit;
@@ -150,4 +155,26 @@
 } */
 .post__liked > svg {
   fill: red;
+}
+
+.post__bable {
+  background-color:#e1a4a4;
+  color: white;
+  font-size: 11px;
+  width: 19px;
+  height: 14px;
+  border-radius: 30px;
+  position: absolute;
+  left: 60%;
+  bottom: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.post__bable-link {
+text-decoration: none;
+position: relative;
+right: 8px;
+
 }

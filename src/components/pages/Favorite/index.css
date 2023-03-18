@@ -1,0 +1,10 @@
+.favorite, .favorite__back {
+   
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgb(20, 20, 20) ;
+
+}

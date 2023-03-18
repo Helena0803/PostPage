@@ -57,12 +57,12 @@ class Api {
     }).then(onResponse); 
   }
 
-  changeLikePostStatus(postId, like) {
-    return fetch(`${this._baseUrl}/posts/likes/${postId}`,{
-      headers: this._headers,
-      method: like ? 'PUT': 'DELETE',
-    }).then(onResponse); 
-  }
+  // changeLikePostStatus(postId, like) {
+  //   return fetch(`${this._baseUrl}/posts/likes/${postId}`,{
+  //     headers: this._headers,
+  //     method: like ? 'PUT': 'DELETE',
+  //   }).then(onResponse); 
+  // }
   addLike(postId) {
     return fetch(`${this._baseUrl}/posts/likes/${postId}`,{
       headers: this._headers,

@@ -18,3 +18,4 @@ export const useDebounce = (value, delay = 500) => {
   }, [value]);
   return debounceValue;
 };
+export const getLike = (product, currentUser) => product?.likes?.some((e) => e === currentUser?._id);

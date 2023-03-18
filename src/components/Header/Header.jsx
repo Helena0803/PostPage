@@ -1,14 +1,19 @@
 import { Logo } from "../Logo/Logo";
+import { ReactComponent as Like } from "./Path.svg";
 import { Search } from "../Search/Search";
 import "./style.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Context/userContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { PostContext } from "../Context/postContext";
+import { ModalDelete } from "../ModalEdit/ModalEdit";
 
 export const Header = () => {
   const { currentUser, searchQuery, setSearchQuery, onUpdateUser } =
     useContext(UserContext);
   const navigate = useNavigate();
+  const { favorite } = useContext(PostContext);
+  const [modal, setModal] = useState({ modal: false });
   // const [counter, setCounter] = useState(parentCounter);
 
   // useEffect(() => {
@@ -18,7 +23,7 @@ export const Header = () => {
 
   const handleClickChangeUserInfo = (e) => {
     e.preventDefault();
-    onUpdateUser({ name: "Елена", about: "Фронтенд-разработчик" });
+    onUpdateUser({ name: "Лена", about: "Фронтенд-разработчик" });
   };
   return (
     <div className="header" id="head">
@@ -42,13 +47,24 @@ export const Header = () => {
                 <span>{currentUser.name} </span>
                 <span>{currentUser.email} </span>
               </div>
+              <ModalDelete title={"Профиль"} isOpened={false} />
               <button
                 type="button"
                 className="btn"
-                onClick={handleClickChangeUserInfo}
+                // onClick={handleClickChangeUserInfo}
+                onClick={() => setModal({ ...modal, modal: true })}
               >
-                <span>Изменить</span>
+                Изменить
+                {/* <span>Изменить</span> */}
               </button>
+              <div>
+                <Link to={"/favorite"} className="header__babble-link">
+                  <Like className="header__liked" />
+                  {favorite.length !== 0 && (
+                    <span className="header__babble">{favorite.length}</span>
+                  )}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

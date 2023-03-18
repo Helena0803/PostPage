@@ -6,17 +6,17 @@ import cn from "classnames";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Context/userContext";
 import { useNavigate } from "react-router-dom";
+import { getLike } from "../utils/utils";
 
-export const PostCard = ({ id, author }) => {
+export const PostCard = ({ id, author, product }) => {
   const [post, setPost] = useState({});
+  const { currentUser } = useContext(UserContext);
+  const isLiked = getLike(product, currentUser);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.getPostById(id).then((data) => setPost(data));
   }, [id]);
-
-  const { currentUser } = useContext(UserContext);
-  const isLiked = post?.likes?.some((el) => el === currentUser._id);
-  const navigate = useNavigate();
 
   return (
     <>

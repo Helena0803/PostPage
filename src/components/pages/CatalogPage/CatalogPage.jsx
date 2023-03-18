@@ -23,14 +23,14 @@ export const CatalogPage = () => {
           {getIssuees(posts?.length)}
         </p>
       )}
-      <div className="sort-post">
+      <div className="sort-posts">
         {sortedItems.map((e) => (
           <span key={e.id} className="sort-item" onClick={() => setSort(e.id)}>
             {e.id}
           </span>
         ))}
       </div>
-      <PostList onPostLike={handlePostLike} />
+      <PostList posts={posts} onPostLike={handlePostLike} />
     </>
   );
 };

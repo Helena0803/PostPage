@@ -4,7 +4,7 @@ import { Header } from "../Header/Header";
 import "./App.css";
 import { api } from "../utils/Api";
 import { Breadcrumb, Pagination } from "antd";
-import { useDebounce } from "../utils/utils";
+import { getLike, useDebounce } from "../utils/utils";
 import { Dashboard } from "../Dashboard/dashboard";
 import { Route, Routes } from "react-router-dom";
 import { CatalogPage } from "../pages/CatalogPage/CatalogPage";
@@ -12,48 +12,61 @@ import { PostPage } from "../pages/PostPage/PostPage";
 import { UserContext } from "../Context/userContext";
 import { PostContext } from "../Context/postContext";
 import { NotFound } from "../pages/NotFound/NotFound";
+import { Favorite } from "../pages/Favorite/Favorite";
+import { ModalDelete } from "../ModalEdit/ModalEdit";
 
 function App() {
   const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(undefined);
-  // const [parentCounter, setParentCounter] = useState(0);
+  const [parentCounter, setParentCounter] = useState(0);
+  const [counter, setCounter] = useState(parentCounter);
   const [currentUser, setCurrentUser] = useState({});
+  const [favorite, setFavorite] = useState([]);
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
 
-  const items_filtred = (products, id) =>
-    products.filter((e) => e.author._id === id);
+  const filteredPosts = (posts, id) => {
+    return posts?.filter((e) => e?.author?._id === id);
+  };
 
   const handleSearch = (search) => {
     api
       .searchPosts(search)
-      .then((data) => setPosts(items_filtred(data, currentUser._id)));
+      .then((data) => setPosts(filteredPosts(data, currentUser._id)));
   };
   //задержка отправки данных на сервер при вводе в строку поиска
   const debounceValueInApp = useDebounce(searchQuery, 500);
 
   //добавление и удаление лайков
   function handlePostLike(product) {
-    const isLiked = product?.likes?.some((el) => el === currentUser._id);
+    const isLiked = getLike(product, currentUser);
+    // const isLiked = product?.likes?.some((el) => el === currentUser._id);
     isLiked
       ? api.deleteLike(product._id).then((newPost) => {
           const newPosts = posts.map((e) =>
             e._id === newPost._id ? newPost : e
           );
-          setPosts([...newPosts]);
+          // setPosts([...newPosts]);
+          setPosts(filteredPosts(newPosts, currentUser._id));
+          setFavorite((priority) =>
+            priority.filter((priority) => priority._id !== newPost._id)
+          );
         })
       : api.addLike(product._id).then((newPost) => {
           const newPosts = posts.map((e) =>
             e._id === newPost._id ? newPost : e
           );
-          setPosts([...newPosts]);
+          // setPosts([...newPosts]);
+          setPosts(filteredPosts(newPosts, currentUser._id));
+          setFavorite((priority) => [...priority, newPost]);
         });
   }
 
   function handleUpdateUserInfo(userUpdate) {
     api.setUserInfo(userUpdate).then((newUserData) => {
       setCurrentUser(newUserData);
-      console.log({ newUserData });
     });
   }
+
   //use-эффекты
   useEffect(() => {
     if (searchQuery === undefined) return;
@@ -66,18 +79,24 @@ function App() {
   // }, [searchQuery]);
 
   useEffect(() => {
-    // Promise.all([api.getUserInfo(), api.getPostList()]).then(
-    //   ([userData, postData]) => {
-    //     setCurrentUser(userData);
-    //     setPosts(postData.posts);
-    //   }
-    // );
+    Promise.all([api.getUserInfo(), api.getPostList()]).then(
+      ([userData, productData]) => {
+        setCurrentUser(userData);
+        const sorted = filteredPosts(productData, userData?._id);
+        setPosts(sorted);
+        const favor = sorted?.filter((e) => getLike(e, userData));
+        setFavorite(favor);
+      }
+    );
+  }, []);
 
-    api.getUserInfo().then((data) => setCurrentUser(data));
-    api.getPostList().then((data) => {
-      setPosts(items_filtred(data, currentUser._id));
-    });
-  }, [currentUser._id]);
+  //   api.getUserInfo().then((data) => setCurrentUser(data));
+  //   api.getPostList().then((data) => {
+  //     setPosts(items_filtred(data, currentUser._id));
+  //   });
+  // }, [currentUser._id]);
+  // products.filter((e) => e.author._id === id);
+
   const setSortPosts = (sort) => {
     if (sort === "Самые обсуждаемые") {
       const newPosts = posts.sort(
@@ -87,7 +106,7 @@ function App() {
     }
     if (sort === "Старые") {
       const newPosts = posts.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        (a, b) => new Date(a.created_at) - new Date(b.created_at)
       );
       setPosts([...newPosts]);
     }
@@ -97,11 +116,13 @@ function App() {
     }
     if (sort === "Новые") {
       const newPosts = posts.sort(
-        (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
       setPosts([...newPosts]);
     }
   };
+  // console.log({ posts });
+  // console.log({ currentUser });
 
   const contextUserValue = {
     currentUser,
@@ -109,15 +130,18 @@ function App() {
     setSearchQuery,
     onUpdateUser: handleUpdateUserInfo,
     setSort: setSortPosts,
-    // setParentCounter,
-    // parentCounter,
+    setParentCounter,
+    parentCounter,
+    counter,
+    setCounter,
   };
-  const contextPostValue = { posts, handlePostLike };
+  const contextPostValue = { posts, handlePostLike, favorite, setFavorite };
   return (
     <>
       <UserContext.Provider value={contextUserValue}>
         <PostContext.Provider value={contextPostValue}>
           <Header />
+
           <main className="content">
             <Dashboard />
             <Breadcrumb />
@@ -128,6 +152,7 @@ function App() {
               <Route path="/catalog" element={<CatalogPage />}></Route>
               <Route path="/post/:postId" element={<PostPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
+              <Route path="/favorite" element={<Favorite />}></Route>
             </Routes>
             <Pagination />
           </main>

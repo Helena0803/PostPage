@@ -2,6 +2,9 @@
     width:100%;
     background-color:#ff4dca;
     padding:12px 0 ;
+    position: fixed;
+    z-index: 2;
+    top: 0;
 }
 .header__wrapper {
     display: flex;
@@ -51,6 +54,30 @@ gap: 20px;
     vertical-align: middle;
     border-style: none;
 }
+.header__liked svg {
+    fill: transparent;
+    stroke: black;
+    stroke-width: 0.5px;
+}
+.header__babble {
+    background-color:#a6166d;
+    color: white;
+    font-size: 11px;
+    width: 19px;
+    height: 14px;
+    border-radius: 30px;
+    position: absolute;
+    left: 60%;
+    bottom: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  .header__babble-link {
+    text-decoration: none;
+  position: relative;
+  }
 @media (max-width: 700px) {
     .header__wrapper {
         flex-direction: column;
