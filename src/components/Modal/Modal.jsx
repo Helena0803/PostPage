@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import { ReactComponent as Cart } from "../Post/cart.svg";
 
-export const DeletePost = () => {
+export const DeletePost = ({ deleteClickPost }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -10,6 +10,7 @@ export const DeletePost = () => {
   };
 
   const handleOk = () => {
+    deleteClickPost();
     setIsModalOpen(false);
   };
 
@@ -19,17 +20,7 @@ export const DeletePost = () => {
 
   return (
     <>
-      {/* <Button type="primary"> */}
-      {
-        <Cart
-          onClick={showModal}
-          style={{ color: "black" }}
-          // style={{ backgroundColor: "white" }}
-          // style={{ fill: "none" }}
-          // style={{ stroke: "width" }}
-        />
-      }
-      {/* </Button> */}
+      {<Cart onClick={showModal} style={{ color: "black" }} />}
       <Modal
         title="Удаление поста"
         open={isModalOpen}

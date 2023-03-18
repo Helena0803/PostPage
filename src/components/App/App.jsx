@@ -22,7 +22,6 @@ function App() {
   const [counter, setCounter] = useState(parentCounter);
   const [currentUser, setCurrentUser] = useState({});
   const [favorite, setFavorite] = useState([]);
-  const [modal, setModal] = useState({ modal1: false, modal2: false });
 
   const filteredPosts = (posts, id) => {
     return posts?.filter((e) => e?.author?._id === id);
@@ -97,6 +96,13 @@ function App() {
   // }, [currentUser._id]);
   // products.filter((e) => e.author._id === id);
 
+  const deleteClickPost = async (id) => {
+    await api.deletePost(id).then((newPost) => {
+      const newPosts = posts.filter((e) => e._id !== newPost._id);
+      setPosts([...newPosts]);
+    });
+  };
+
   const setSortPosts = (sort) => {
     if (sort === "Самые обсуждаемые") {
       const newPosts = posts.sort(
@@ -134,6 +140,7 @@ function App() {
     parentCounter,
     counter,
     setCounter,
+    deleteClickPost,
   };
   const contextPostValue = { posts, handlePostLike, favorite, setFavorite };
   return (
@@ -141,7 +148,6 @@ function App() {
       <UserContext.Provider value={contextUserValue}>
         <PostContext.Provider value={contextPostValue}>
           <Header />
-
           <main className="content">
             <Dashboard />
             <Breadcrumb />
